@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Auction Site</title>
+    <link href="/dist/style.css" rel="stylesheet">
+</head>
+<body class="bg-dark min-h-screen">
+    <!-- Navigation -->
+    <nav class="absolute top-0 left-0 w-full flex items-center justify-between px-8 py-4 bg-dark">
+        <h1 class="text-primary text-2xl font-bold">Logo</h1>
+        <a href="/index.html" class="text-primary hover:text-secondary">Bids</a>
+    </nav>
+
+    <!-- Register Form Container -->
+    <div class="min-h-screen flex items-center justify-center px-4">
+        <div class="max-w-md w-full bg-cardBg p-8 rounded-lg shadow-lg">
+            <h2 class="text-3xl text-center text-white font-bold mb-8">Create Account</h2>
+            
+            <!-- Error/Success Message Container -->
+            <div id="messageContainer" class="mb-4 text-center hidden">
+                <p id="message" class="px-4 py-2 rounded"></p>
+            </div>
+
+            <form id="registerForm" name="registerForm" class="space-y-6">
+                <div>
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Username"
+                        class="w-full bg-dark p-4 rounded-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+                        required
+                    >
+                </div>
+
+                <div>
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Email (@stud.noroff.no)"
+                        class="w-full bg-dark p-4 rounded-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+                        required
+                    >
+                </div>
+
+                <div>
+                    <input
+                        type="url"
+                        name="avatar"
+                        placeholder="Profile Image URL"
+                        class="w-full bg-dark p-4 rounded-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+                    >
+                </div>
+
+                <div>
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Password (min. 8 characters)"
+                        class="w-full bg-dark p-4 rounded-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+                        required
+                    >
+                </div>
+
+                <div>
+                    <input
+                        type="password"
+                        name="confirmPassword"
+                        placeholder="Confirm Password"
+                        class="w-full bg-dark p-4 rounded-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+                        required
+                    >
+                </div>
+
+                <button
+                    type="submit"
+                    class="w-full bg-primary text-dark py-3 rounded-full font-semibold hover:bg-secondary transition-colors"
+                >
+                    Register
+                </button>
+            </form>
+
+            <p class="mt-6 text-center text-gray-300">
+                Already have an account? 
+                <a href="/pages/login.html" class="text-primary hover:text-secondary font-semibold">Login</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="../js/register.js" type="module"></script>
+</body>
+</html>

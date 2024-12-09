@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Auction Site</title>
+    <link href="/dist/style.css" rel="stylesheet">
+</head>
+<body class="bg-dark min-h-screen">
+    <!-- Navigation -->
+    <nav class="px-8 py-4 flex justify-between items-center">
+        <h1 class="text-primary text-2xl font-bold">Logo</h1>
+        <div class="flex items-center gap-4">
+            <a href="/index.html" class="text-primary hover:text-secondary">Bids</a>
+            <div id="creditsContainer" class="bg-black/30 px-4 py-2 rounded-lg">
+                <span class="text-white">Credits = <span id="userCredits">1000</span></span>
+            </div>
+            <a href="/src/pages/create.html" class="bg-primary text-dark px-4 py-2 rounded-full hover:bg-secondary">Create</a>
+            <button id="logoutBtn" class="text-primary hover:text-secondary">Log out</button>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Profile Header -->
+        <div id="profileHeader" class="w-full mb-8">
+            <!-- Profile header will be injected here -->
+        </div>
+
+        <!-- Listings Grid -->
+        <div id="listingsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Listings will be injected here -->
+        </div>
+    </div>
+
+    <script src="/src/js/profile.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auction Site</title>
+    <link href="/dist/style.css" rel="stylesheet">
+</head>
+<body class="bg-dark min-h-screen">
+    <!-- Navigation -->
+    <nav class="px-8 py-4 flex justify-between items-center">
+        <h1 class="text-primary text-2xl font-bold">Logo</h1>
+        
+        <!-- Guest Navigation -->
+        <div id="guestNav" class="flex gap-4">
+            <a href="/src/pages/login.html" class="text-primary hover:text-secondary">Log in</a>
+            <a href="/src/pages/register.html" class="text-orange-500 hover:text-secondary">get Started</a>
+        </div>
+        
+        <!-- User Navigation -->
+        <div id="userNav" class="flex items-center gap-4 hidden">
+            <button id="logoutBtn" class="text-primary hover:text-secondary">Logout</button>
+            <a href="./src/pages/create.html" class="bg-primary text-dark px-4 py-2 rounded-full hover:bg-secondary">Create</a>
+            <img id="userAvatar" src="" alt="Profile" class="w-10 h-10 rounded-full">
+        </div>
+    </nav>
+
+    <!-- Search and Credits Section -->
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <div class="flex justify-between items-center mb-8">
+            <!-- Credits (will be shown when logged in) -->
+            <div id="creditsContainer" class="bg-black/30 px-4 py-2 rounded-lg hidden">
+                <span class="text-white">Credits = <span id="userCredits">1000</span></span>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="flex-grow mx-auto max-w-md">
+                <input 
+                    type="search" 
+                    placeholder="Search by title, user..." 
+                    class="w-full bg-cardBg rounded-full py-2 px-6 text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+            </div>
+
+            <!-- Empty div for flex spacing -->
+            <div class="w-[150px]"></div>
+        </div>
+
+        <!-- Filter -->
+        <div class="flex items-center justify-center gap-4 mb-8">
+            <span class="text-white">Filter by:</span>
+            <button class="bg-primary hover:bg-secondary px-4 py-2 rounded-full text-dark">Newest</button>
+            <button class="bg-primary hover:bg-secondary px-4 py-2 rounded-full text-dark">Oldest</button>
+        </div>
+
+        <!-- Listings Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="listingsGrid"></div>
+    </div>
+
+    <script src="src/js/index.js" type="module"></script>
+</body>
+</html>
