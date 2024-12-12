@@ -5,29 +5,33 @@ function logout() {
     localStorage.clear();
     checkAuth();
 }
-
 function checkAuth() {
     const user = JSON.parse(localStorage.getItem('user'));
     const guestNav = document.getElementById('guestNav');
     const userNav = document.getElementById('userNav');
-    const creditsContainer = document.getElementById('creditsContainer');
     
     if (user) {
+        // Show user navigation
         guestNav.classList.add('hidden');
         userNav.classList.remove('hidden');
-        creditsContainer.classList.remove('hidden');
         
+        // Update user info
         document.getElementById('userCredits').textContent = user.credits || 1000;
         const userAvatar = document.getElementById('userAvatar');
-        userAvatar.src = user.avatar?.url || 'https://via.placeholder.com/40';
-        userAvatar.alt = `${user.name}'s profile`;
+        const profileLink = document.getElementById('profileLink');
+        
+        if (userAvatar && profileLink) {
+            userAvatar.src = user.avatar?.url || 'https://via.placeholder.com/40';
+            userAvatar.alt = `${user.name}'s profile`;
+            // Set the correct profile link
+            profileLink.href = `/src/pages/profile.html?name=${user.name}`;
+        }
     } else {
+        // Show guest navigation
         guestNav.classList.remove('hidden');
         userNav.classList.add('hidden');
-        creditsContainer.classList.add('hidden');
     }
 }
-
 async function loadListings(filters = {}) {
     try {
         const listingsGrid = document.getElementById('listingsGrid');

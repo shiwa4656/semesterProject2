@@ -3,6 +3,7 @@
 import { getListings } from './api/listings.js';
 import { createListingCard } from './utils/listingRenderer.js';
 
+
 function checkAuth() {
     const user = JSON.parse(localStorage.getItem('user'));
     const guestNav = document.getElementById('guestNav');

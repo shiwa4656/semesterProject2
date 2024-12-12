@@ -24,6 +24,8 @@ export function getHighestBid(bids) {
     return Math.max(...bids.map(bid => bid.amount));
 }
 
+
+
 export function createListingCard(listing) {
     const highestBid = getHighestBid(listing.bids);
     const timeLeft = getTimeLeft(listing.endsAt);
@@ -43,17 +45,19 @@ export function createListingCard(listing) {
             </div>
 
             <div class="px-4 flex justify-between mb-2">
-                <span class="text-primary">${listing.title}</span>
+                <a href="/src/pages/listing-detail.html?id=${listing.id}" class="text-primary hover:text-secondary">
+                    ${listing.title}
+                </a>
                 <span class="bg-primary text-dark px-3 py-1 rounded-full">
                     Highest bid: ${highestBid}
                 </span>
             </div>
 
-            <div class="px-4">
+            <a href="/src/pages/listing-detail.html?id=${listing.id}" class="block px-4 hover:opacity-90">
                 <img src="${listingImage}" 
                      alt="${listing.title}"
                      class="w-full h-48 object-cover rounded-lg">
-            </div>
+            </a>
 
             <p class="px-4 py-2 text-sm text-gray-300">
                 ${listing.description || 'No description provided'}
@@ -65,10 +69,9 @@ export function createListingCard(listing) {
             </div>
 
             <button class="w-full bg-primary hover:bg-secondary text-dark py-3 font-medium transition-colors"
-                    onclick="placeBid('${listing.id}')">
+                    onclick="window.location.href='/src/pages/listing-detail.html?id=${listing.id}'">
                 Place Bid
             </button>
         </div>
     `;
 }
-

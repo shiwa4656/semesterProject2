@@ -1,12 +1,16 @@
 const BASE_URL = 'https://v2.api.noroff.dev/auction/listings';
+const API_KEY = "fd8ac414-9690-48cf-9579-f5ef44e495d2";
 
-/**
- * Get all listings
- */
 export async function getListings() {
     try {
-        const response = await fetch(`${BASE_URL}?_seller=true&_bids=true`);
+        const response = await fetch(`${BASE_URL}?_seller=true&_bids=true&sort=created&sortOrder=desc`, {
+            headers: {
+                "X-Noroff-API-Key": API_KEY
+            }
+        });
+        
         const data = await response.json();
+        console.log('Fetched listings:', data);
 
         if (!response.ok) {
             throw new Error(data.errors?.[0]?.message || 'Failed to fetch listings');
@@ -19,12 +23,14 @@ export async function getListings() {
     }
 }
 
-/**
- * Get a single listing by ID
- */
 export async function getListing(id) {
     try {
-        const response = await fetch(`${BASE_URL}/${id}?_seller=true&_bids=true`);
+        const response = await fetch(`${BASE_URL}/${id}?_seller=true&_bids=true`, {
+            headers: {
+                "X-Noroff-API-Key": API_KEY
+            }
+        });
+
         const data = await response.json();
 
         if (!response.ok) {
@@ -38,11 +44,9 @@ export async function getListing(id) {
     }
 }
 
-/**
- * Create a new listing
- */
 export async function createListing(listingData) {
     const token = localStorage.getItem('token');
+    console.log('Token retrieved for Authorization:', token);
     
     if (!token) {
         throw new Error('You must be logged in to create a listing');
@@ -53,12 +57,14 @@ export async function createListing(listingData) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                "X-Noroff-API-Key": API_KEY
             },
             body: JSON.stringify(listingData)
         });
 
         const data = await response.json();
+        console.log('API Response:', data);
 
         if (!response.ok) {
             throw new Error(data.errors?.[0]?.message || 'Failed to create listing');
@@ -71,9 +77,6 @@ export async function createListing(listingData) {
     }
 }
 
-/**
- * Place a bid on a listing
- */
 export async function placeBid(listingId, amount) {
     const token = localStorage.getItem('token');
     
@@ -86,7 +89,8 @@ export async function placeBid(listingId, amount) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                "X-Noroff-API-Key": API_KEY
             },
             body: JSON.stringify({ amount })
         });
@@ -104,9 +108,6 @@ export async function placeBid(listingId, amount) {
     }
 }
 
-/**
- * Delete a listing
- */
 export async function deleteListing(id) {
     const token = localStorage.getItem('token');
     
@@ -118,7 +119,8 @@ export async function deleteListing(id) {
         const response = await fetch(`${BASE_URL}/${id}`, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                "X-Noroff-API-Key": API_KEY
             }
         });
 
@@ -134,9 +136,6 @@ export async function deleteListing(id) {
     }
 }
 
-/**
- * Update a listing
- */
 export async function updateListing(id, listingData) {
     const token = localStorage.getItem('token');
     
@@ -149,7 +148,8 @@ export async function updateListing(id, listingData) {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                "X-Noroff-API-Key": API_KEY
             },
             body: JSON.stringify(listingData)
         });

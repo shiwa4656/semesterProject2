@@ -1,6 +1,19 @@
 import { getListings } from './api/listings.js';
 import { createListingCard } from './utils/listingRenderer.js';
 
+function checkAuth() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const token = localStorage.getItem('token');
+    
+    // If no user or token, redirect to login
+    if (!user || !token) {
+        window.location.href = '/src/pages/login.html';
+        return;
+    }
+
+    // Update credits display
+    document.getElementById('userCredits').textContent = user.credits || 1000;
+}
 async function loadProfileData() {
     try {
         // Get profile name from URL
@@ -12,15 +25,25 @@ async function loadProfileData() {
             throw new Error('No profile name provided');
         }
 
-        // Add the profile header with banner and avatar
+        // Get all listings and filter for this user
+        const listings = await getListings();
+        console.log('Fetched listings:', listings);
+        
+        const userListings = listings.filter(listing => listing.seller.name === profileName);
+        console.log('User listings:', userListings);
+        
+        // Get user's current avatar from their listings
+        const userAvatar = userListings[0]?.seller?.avatar?.url || 'https://via.placeholder.com/128';
+
+        // Update the profile header with avatar and edit button
         document.getElementById('profileHeader').innerHTML = `
             <!-- Banner background -->
             <div class="w-full h-48 bg-cardBg mb-16">
                 <!-- Profile picture and edit button container -->
                 <div class="relative w-32 h-32 mx-auto transform translate-y-32">
                     <img 
-                        src="${currentUser?.avatar?.url || 'https://via.placeholder.com/128'}" 
-                        alt="Profile picture" 
+                        src="${userAvatar}" 
+                        alt="${profileName}'s profile picture"
                         class="w-full h-full rounded-full object-cover border-4 border-cardBg"
                     >
                     ${profileName === currentUser?.name ? `
@@ -37,15 +60,14 @@ async function loadProfileData() {
             <h2 class="text-2xl text-white font-bold text-center mt-20">Posted bids</h2>
         `;
 
-        // Get and display listings
-        const listings = await getListings();
-        const userListings = listings.filter(listing => listing.seller.name === profileName);
-
+        // Render the listings
         const listingsGrid = document.getElementById('listingsGrid');
-        if (userListings.length === 0) {
-            listingsGrid.innerHTML = '<p class="text-white text-center col-span-3">No listings found</p>';
-        } else {
-            listingsGrid.innerHTML = userListings.map(listing => createListingCard(listing)).join('');
+        if (listingsGrid) {
+            if (userListings.length === 0) {
+                listingsGrid.innerHTML = '<p class="text-white text-center">No listings found</p>';
+            } else {
+                listingsGrid.innerHTML = userListings.map(listing => createListingCard(listing)).join('');
+            }
         }
 
     } catch (error) {
@@ -59,27 +81,35 @@ async function loadProfileData() {
 // Edit profile function
 window.editProfile = async function() {
     const user = JSON.parse(localStorage.getItem('user'));
-    
-    // Create a simple form for updating profile
     const newAvatarUrl = prompt('Enter new avatar URL:', user.avatar?.url || '');
+    
     if (newAvatarUrl) {
         try {
-            const updatedProfile = {
-                avatar: {
-                    url: newAvatarUrl,
-                    alt: `${user.name}'s profile picture`
-                }
-            };
+            const response = await fetch(`https://v2.api.noroff.dev/auction/profiles/${user.name}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'X-Noroff-API-Key': 'fd8ac414-9690-48cf-9579-f5ef44e495d2'
+                },
+                body: JSON.stringify({
+                    avatar: {
+                        url: newAvatarUrl,
+                        alt: `${user.name}'s profile picture`
+                    }
+                })
+            });
 
-            // You'll need to implement the updateProfile API call
-            // await updateProfile(updatedProfile);
-            
-            // Temporarily just update localStorage
-            user.avatar = updatedProfile.avatar;
-            localStorage.setItem('user', JSON.stringify(user));
-            
-            // Reload the page to show changes
-            window.location.reload();
+            if (response.ok) {
+                // Update localStorage
+                user.avatar = { url: newAvatarUrl, alt: `${user.name}'s profile picture` };
+                localStorage.setItem('user', JSON.stringify(user));
+                
+                // Reload the page to show changes
+                window.location.reload();
+            } else {
+                throw new Error('Failed to update profile');
+            }
         } catch (error) {
             alert('Failed to update profile: ' + error.message);
         }
@@ -88,17 +118,7 @@ window.editProfile = async function() {
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('Profile page loaded');
     checkAuth();
     loadProfileData();
 });
-
-// Check authentication
-function checkAuth() {
-    const user = JSON.parse(localStorage.getItem('user'));
-    
-    if (user) {
-        document.getElementById('userCredits').textContent = `Credits = ${user.credits || 1000}`;
-    } else {
-        window.location.href = '/src/pages/login.html';
-    }
-}

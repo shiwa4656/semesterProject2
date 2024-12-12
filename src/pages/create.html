@@ -11,32 +11,32 @@
     <nav class="px-8 py-4 flex justify-between items-center">
         <h1 class="text-primary text-2xl font-bold">Logo</h1>
         <div class="flex items-center gap-4">
-            <span class="text-white">Credits = <span id="userCredits">1000</span></span>
-            <img id="userAvatar" src="" alt="Profile" class="w-10 h-10 rounded-full">
+            <a href="/index.html" class="text-primary hover:text-secondary">Bids</a>
+            <div id="creditsContainer" class="bg-black/30 px-4 py-2 rounded-lg">
+                <span class="text-white">Credits = <span id="userCredits">1000</span></span>
+            </div>
+            <button id="logoutBtn" class="text-orange-500 hover:text-secondary">Log out</button>
         </div>
     </nav>
 
-    <!-- Create Listing Form -->
-    <div class="min-h-screen flex items-center justify-center px-4">
-        <div class="max-w-md w-full bg-cardBg p-8 rounded-lg shadow-lg">
+    <!-- Create Form Container -->
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <div class="max-w-md mx-auto bg-cardBg p-8 rounded-lg shadow-lg">
             <h2 class="text-3xl text-center text-white font-bold mb-8">Create bid</h2>
             
-            <!-- Error/Success Message Container -->
+            <!-- Message Container -->
             <div id="messageContainer" class="mb-4 text-center hidden">
                 <p id="message" class="px-4 py-2 rounded"></p>
             </div>
 
             <form id="createListingForm" class="space-y-6">
-                <div id="messageContainer" class="mb-4 text-center hidden">
-                    <p id="message" class="px-4 py-2 rounded"></p>
-                </div>
                 <div>
                     <input
                         type="text"
                         name="title"
                         placeholder="Title"
-                        class="w-full bg-dark p-4 rounded-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
                         required
+                        class="w-full bg-dark p-4 rounded-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
                     >
                 </div>
 
@@ -45,8 +45,8 @@
                         type="url"
                         name="media"
                         placeholder="Media Url"
-                        class="w-full bg-dark p-4 rounded-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
                         required
+                        class="w-full bg-dark p-4 rounded-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
                     >
                 </div>
 
@@ -54,8 +54,8 @@
                     <textarea
                         name="description"
                         placeholder="Description"
-                        class="w-full bg-dark p-4 rounded-2xl text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary min-h-[150px]"
                         required
+                        class="w-full bg-dark p-4 rounded-2xl text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary min-h-[150px] resize-none"
                     ></textarea>
                 </div>
 
@@ -63,8 +63,8 @@
                     <input
                         type="datetime-local"
                         name="endsAt"
-                        class="w-full bg-dark p-4 rounded-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
                         required
+                        class="w-full bg-dark p-4 rounded-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
                     >
                 </div>
 
@@ -77,6 +77,7 @@
             </form>
         </div>
     </div>
+
     <script src="/src/js/create-listing.js" type="module"></script>
 </body>
 </html>

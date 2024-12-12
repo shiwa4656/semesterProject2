@@ -1,19 +1,36 @@
-
 const BASE_URL = 'https://v2.api.noroff.dev';
 
-function clearAllStorage() {
-    localStorage.clear();
-    sessionStorage.clear();
+export async function register(userData) {
+    try {
+        const response = await fetch(`${BASE_URL}/auth/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.errors?.[0]?.message || 'Registration failed');
+        }
+
+        return data;
+    } catch (error) {
+        throw error;
+    }
 }
 
 export async function login(userData) {
     try {
-        clearAllStorage();
+       
 
         const response = await fetch(`${BASE_URL}/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
+                
             },
             body: JSON.stringify(userData)
         });
