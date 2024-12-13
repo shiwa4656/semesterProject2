@@ -13,24 +13,67 @@
         
         <!-- Guest Navigation -->
         <div id="guestNav" class="flex gap-4">
+            <a href="/src/pages/bids.html" class="text-primary hover:text-secondary">Bids</a>
             <a href="/src/pages/login.html" class="text-primary hover:text-secondary">Log in</a>
             <a href="/src/pages/register.html" class="text-orange-500 hover:text-secondary">get Started</a>
         </div>
         
         <!-- User Navigation -->
         <div id="userNav" class="flex items-center gap-4 hidden">
-            <button id="logoutBtn" class="text-primary hover:text-secondary">Logout</button>
+            <a href="./src/pages/bids.html" class="bg-primary text-dark px-4 py-2 rounded-full hover:bg-secondary">Bids</a>
             <a href="./src/pages/create.html" class="bg-primary text-dark px-4 py-2 rounded-full hover:bg-secondary">Create</a>
+            <button id="logoutBtn" class="text-primary hover:text-secondary">Logout</button>
             <a href="#" id="profileLink" class="flex items-center hover:opacity-80">
                 <img id="userAvatar" src="" alt="Profile" class="w-10 h-10 rounded-full">
             </a>
         </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobileMenuBtn" class="lg:hidden text-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
     </nav>
 
-    <!-- Search and Credits Section -->
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden lg:hidden bg-cardBg fixed inset-0 z-50">
+        <div class="p-4">
+            <button id="closeMobileMenu" class="text-primary mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <!-- Mobile menu items will be inserted here -->
+        </div>
+    </div>
+
     <div class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Ending Soon Carousel -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-white mb-6">Ending Soon</h2>
+            <div class="relative">
+                <div id="carouselContainer" class="overflow-hidden">
+                    <div id="carousel" class="flex transition-transform duration-300 ease-in-out">
+                        <!-- Carousel items will be inserted here -->
+                    </div>
+                </div>
+                <button id="prevBtn" class="absolute left-0 top-1/2 -translate-y-1/2 bg-primary/80 hover:bg-primary text-dark p-2 rounded-r-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                <button id="nextBtn" class="absolute right-0 top-1/2 -translate-y-1/2 bg-primary/80 hover:bg-primary text-dark p-2 rounded-l-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- Main Content -->
         <div class="flex justify-between items-center mb-8">
-            <!-- Credits (will be shown when logged in) -->
+            <!-- Credits -->
             <div id="creditsContainer" class="bg-black/30 px-4 py-2 rounded-lg hidden">
                 <span class="text-white">Credits = <span id="userCredits">1000</span></span>
             </div>
@@ -43,9 +86,6 @@
                     class="w-full bg-cardBg rounded-full py-2 px-6 text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
                 >
             </div>
-
-            <!-- Empty div for flex spacing -->
-            <div class="w-[150px]"></div>
         </div>
 
         <!-- Filter -->
@@ -57,7 +97,42 @@
 
         <!-- Listings Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="listingsGrid"></div>
+
+        <!-- View More Button -->
+        <div class="text-center mt-8">
+            <a href="/src/pages/bids.html" class="inline-block bg-primary text-dark px-8 py-3 rounded-full hover:bg-secondary transition-colors">
+                View More Listings
+            </a>
+        </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="bg-cardBg mt-20">
+        <div class="max-w-7xl mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-primary font-bold text-lg mb-4">About Us</h3>
+                    <p class="text-gray-400">Your premier destination for online auctions. Bid, sell, and discover unique items.</p>
+                </div>
+                <div>
+                    <h3 class="text-primary font-bold text-lg mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/src/pages/bids.html" class="text-gray-400 hover:text-primary">All Listings</a></li>
+                        <li><a href="/src/pages/create.html" class="text-gray-400 hover:text-primary">Create Listing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-primary font-bold text-lg mb-4">Contact</h3>
+                    <ul class="space-y-2">
+                        <li class="text-gray-400">Email: support@auction.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Auction Site. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="src/js/index.js" type="module"></script>
 </body>
