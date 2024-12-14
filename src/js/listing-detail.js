@@ -1,5 +1,7 @@
 import { getListing, placeBid } from './api/listings.js';
 
+const API_KEY = "fd8ac414-9690-48cf-9579-f5ef44e495d2";
+
 // Utility functions
 function formatDate(dateString) {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -43,6 +45,7 @@ async function updateCreditsInAPI(username, newAmount) {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'X-Noroff-API-Key': API_KEY
             },
             body: JSON.stringify({
                 credits: newAmount
@@ -50,7 +53,8 @@ async function updateCreditsInAPI(username, newAmount) {
         });
 
         if (!response.ok) {
-            throw new Error('Failed to update credits in API');
+            const err = await response.json();
+            throw new Error(err.errors?.[0]?.message || 'Failed to update credits in API');
         }
 
         return await response.json();
@@ -64,11 +68,15 @@ async function getUserProfile(username) {
     try {
         const response = await fetch(`https://v2.api.noroff.dev/auction/profiles/${username}`, {
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'X-Noroff-API-Key': API_KEY
             }
         });
 
-        if (!response.ok) throw new Error('Failed to fetch user profile');
+        if (!response.ok) {
+            const err = await response.json();
+            throw new Error(err.errors?.[0]?.message || 'Failed to fetch user profile');
+        }
         
         const data = await response.json();
         return data.data;

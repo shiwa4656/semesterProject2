@@ -60,14 +60,14 @@ document.getElementById('registerForm').addEventListener('submit', async (event)
         localStorage.setItem('user', JSON.stringify(response.data));
         
         // Show success message
-        showMessage('Registration successful! Redirecting to home page...', false);
+        showMessage('Registration successful! Redirecting to the login page...', false);
         
         // Clear form
         form.reset();
         
         // Redirect to home page after a delay
         setTimeout(() => {
-            window.location.href = '/index.html';
+            window.location.href = '../pages/login.html';
         }, 2000);
 
     } catch (error) {
