@@ -1,41 +1,47 @@
 import { getListings } from './api/listings.js';
 import { createListingCard } from './utils/listingRenderer.js';
+import { getProfile, updateProfile } from './api/profile.js';
 
 function checkAuth() {
     const user = JSON.parse(localStorage.getItem('user'));
     const token = localStorage.getItem('token');
     
-    // If no user or token, redirect to login
     if (!user || !token) {
         window.location.href = '/src/pages/login.html';
         return;
     }
 
-    // Update credits display
     document.getElementById('userCredits').textContent = user.credits || 1000;
 }
+
 async function loadProfileData() {
     try {
-        // Get profile name from URL
+        // Get profile name from URL or use current user's name if not specified
         const params = new URLSearchParams(window.location.search);
-        const profileName = params.get('name');
         const currentUser = JSON.parse(localStorage.getItem('user'));
+        const profileName = params.get('name') || currentUser.name;
         
         if (!profileName) {
-            throw new Error('No profile name provided');
+            throw new Error('No profile name available');
         }
 
-        // Get all listings and filter for this user
+        // Fetch profile data using the API
+        const profileData = await getProfile(profileName);
+        
+        // Fetch all listings
         const listings = await getListings();
         console.log('Fetched listings:', listings);
         
+        // Filter listings for this user
         const userListings = listings.filter(listing => listing.seller.name === profileName);
         console.log('User listings:', userListings);
         
-        // Get user's current avatar from their listings
-        const userAvatar = userListings[0]?.seller?.avatar?.url || 'https://via.placeholder.com/128';
+        // Get user's avatar from profile data or listings
+        const userAvatar = profileData?.avatar?.url || 
+                          userListings[0]?.seller?.avatar?.url || 
+                          'https://via.placeholder.com/128';
 
-        // Update the profile header with avatar and edit button
+        // Update the profile header
         document.getElementById('profileHeader').innerHTML = `
             <!-- Banner background -->
             <div class="w-full h-48 bg-cardBg mb-16">
@@ -78,45 +84,33 @@ async function loadProfileData() {
     }
 }
 
-// Edit profile function
 window.editProfile = async function() {
     const user = JSON.parse(localStorage.getItem('user'));
     const newAvatarUrl = prompt('Enter new avatar URL:', user.avatar?.url || '');
     
     if (newAvatarUrl) {
         try {
-            const response = await fetch(`https://v2.api.noroff.dev/auction/profiles/${user.name}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                    'X-Noroff-API-Key': 'fd8ac414-9690-48cf-9579-f5ef44e495d2'
-                },
-                body: JSON.stringify({
-                    avatar: {
-                        url: newAvatarUrl,
-                        alt: `${user.name}'s profile picture`
-                    }
-                })
+            // Use the updateProfile function from your API
+            const result = await updateProfile({
+                name: user.name,
+                avatar: {
+                    url: newAvatarUrl,
+                    alt: `${user.name}'s profile picture`
+                }
             });
 
-            if (response.ok) {
-                // Update localStorage
-                user.avatar = { url: newAvatarUrl, alt: `${user.name}'s profile picture` };
-                localStorage.setItem('user', JSON.stringify(user));
-                
-                // Reload the page to show changes
-                window.location.reload();
-            } else {
-                throw new Error('Failed to update profile');
-            }
+            // Update localStorage with new avatar
+            user.avatar = result.avatar;
+            localStorage.setItem('user', JSON.stringify(user));
+            
+            // Reload the page to show changes
+            window.location.reload();
         } catch (error) {
             alert('Failed to update profile: ' + error.message);
         }
     }
 };
 
-// Initialize page
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Profile page loaded');
     checkAuth();

@@ -11,21 +11,58 @@
     <nav class="px-8 py-4 flex justify-between items-center">
         <h1 class="text-primary text-2xl font-bold">Logo</h1>
         
-        <!-- Guest Navigation -->
-        <div id="guestNav" class="flex gap-4">
-            <a href="../../index.html" class="text-primary hover:text-secondary"> Home</a>
-           
+        <!-- Desktop Only Navigation - Hidden on mobile -->
+        <div class="hidden lg:flex items-center">
+            <!-- Guest Navigation -->
+            <div id="guestNav">
+                <div class="flex gap-4">
+                    <a href="/src/pages/bids.html" class="text-primary hover:text-secondary">Bids</a>
+                    <a href="/src/pages/login.html" class="text-primary hover:text-secondary">Log in</a>
+                    <a href="/src/pages/register.html" class="text-orange-500 hover:text-secondary">Get Started</a>
+                </div>
+            </div>
+    
+            <!-- User Navigation -->
+            <div id="userNav" class="hidden">
+                <div class="flex items-center gap-6">
+                    <a href="./src/pages/bids.html" class="text-orange-500 text-sm font-medium hover:text-orange-400 transition duration-200">Bids</a>
+                    <a href="./src/pages/create.html" class="text-orange-500 text-sm font-medium hover:text-orange-400 transition duration-200">Create</a>
+                    <button id="logoutBtn" class="bg-orange-500 text-white text-sm font-medium px-4 py-2 rounded-full hover:bg-orange-600 transition duration-200">
+                        Logout
+                    </button>
+                    <a href="./src/pages/profile.html" id="profileLink" class="flex items-center hover:opacity-80">
+                        <img id="userAvatar" 
+                             src="https://via.placeholder.com/36" 
+                             alt="Profile" 
+                             class="w-10 h-10 rounded-full border-2 border-orange-500 hover:scale-110 transition duration-300">
+                    </a>
+                </div>
+            </div>
         </div>
-        
-        <!-- User Navigation -->
-        <div id="userNav" class="flex items-center gap-4 hidden">
-            <button id="logoutBtn" class="text-primary hover:text-secondary">Logout</button>
-            <a href="./src/pages/create.html" class="bg-primary text-dark px-4 py-2 rounded-full hover:bg-secondary">Create</a>
-            <a href="#" id="profileLink" class="flex items-center hover:opacity-80">
-                <img id="userAvatar" src="" alt="Profile" class="w-10 h-10 rounded-full">
-            </a>
-        </div>
+    
+        <!-- Mobile Only Menu Button -->
+        <button id="mobileMenuBtn" class="block lg:hidden text-primary hover:text-secondary transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
     </nav>
+    
+    <!-- Mobile Menu (Hidden by default) -->
+    <div id="mobileMenu" class="lg:hidden fixed inset-0 z-50 hidden bg-dark bg-opacity-50">
+        <div class="absolute right-0 top-0 h-full w-64 bg-dark transform transition-transform duration-300">
+            <div class="p-4 flex justify-end">
+                <button id="closeMobileMenu" class="text-orange-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div id="mobileMenuContent" class="px-4">
+                <!-- Mobile menu content will be inserted by JavaScript -->
+            </div>
+        </div>
+    </div>
 
     <!-- Search and Credits Section -->
     <div class="max-w-7xl mx-auto px-4 py-8">
@@ -60,6 +97,32 @@
     </div>
     <!-- Pagination Buttons -->
    <div id="paginationContainer" class="flex justify-center mt-8 space-x-2"></div> 
+   <footer class="bg-cardBg mt-20">
+    <div class="max-w-7xl mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h3 class="text-primary font-bold text-lg mb-4">About Us</h3>
+                <p class="text-gray-400">Your premier destination for online auctions. Bid, sell, and discover unique items.</p>
+            </div>
+            <div>
+                <h3 class="text-primary font-bold text-lg mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="../../index.html" class="text-gray-400 hover:text-primary">Home</a></li>
+                    <li><a href="../pages/create.html" class="text-gray-400 hover:text-primary">Create Listing</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-primary font-bold text-lg mb-4">Contact</h3>
+                <ul class="space-y-2">
+                    <li class="text-gray-400">Email: support@auction.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; 2024 Auction Site. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
 
     <script src="../js/bids.js" type="module"></script>
 </body>

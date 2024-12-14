@@ -8,15 +8,17 @@ function logout() {
     localStorage.clear();
     checkAuth();
 }
+
 function checkAuth() {
     const user = JSON.parse(localStorage.getItem('user'));
     const guestNav = document.getElementById('guestNav');
     const userNav = document.getElementById('userNav');
+    const mobileMenuContent = document.getElementById('mobileMenuContent');
     
+    // Desktop navigation
     if (user) {
-        // Show user navigation
-        guestNav.classList.add('hidden');
-        userNav.classList.remove('hidden');
+        guestNav?.classList.add('hidden');
+        userNav?.classList.remove('hidden');
         
         // Update user info
         document.getElementById('userCredits').textContent = user.credits || 1000;
@@ -26,13 +28,48 @@ function checkAuth() {
         if (userAvatar && profileLink) {
             userAvatar.src = user.avatar?.url || 'https://via.placeholder.com/40';
             userAvatar.alt = `${user.name}'s profile`;
-            // Set the correct profile link
             profileLink.href = `/src/pages/profile.html?name=${user.name}`;
         }
+
+        // Update mobile menu content for logged-in user
+        if (mobileMenuContent) {
+            mobileMenuContent.innerHTML = `
+                <div class="mb-6">
+                    <div class="flex items-center gap-3 mb-2">
+                        <img src="${user.avatar?.url || 'https://via.placeholder.com/40'}" 
+                             alt="Profile" 
+                             class="w-10 h-10 rounded-full">
+                        <span class="text-white">${user.name}</span>
+                    </div>
+                    <div class="text-gray-400">
+                        Credits: ${user.credits || 1000}
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <a href="/src/pages/bids.html" class="block text-orange-500">Bids</a>
+                    <a href="/src/pages/create.html" class="block text-orange-500">Create</a>
+                    <a href="/src/pages/profile.html?name=${user.name}" class="block text-orange-500">Profile</a>
+                    <button id="mobileLogoutBtn" class="block w-full text-left text-orange-500">Logout</button>
+                </div>
+            `;
+            
+            // Add event listener for mobile logout
+            document.getElementById('mobileLogoutBtn')?.addEventListener('click', logout);
+        }
     } else {
-        // Show guest navigation
-        guestNav.classList.remove('hidden');
-        userNav.classList.add('hidden');
+        guestNav?.classList.remove('hidden');
+        userNav?.classList.add('hidden');
+
+        // Update mobile menu content for guest
+        if (mobileMenuContent) {
+            mobileMenuContent.innerHTML = `
+                <div class="space-y-4">
+                    <a href="/src/pages/bids.html" class="block text-orange-500">Bids</a>
+                    <a href="/src/pages/login.html" class="block text-orange-500">Log in</a>
+                    <a href="/src/pages/register.html" class="block text-orange-500">Get Started</a>
+                </div>
+            `;
+        }
     }
 }
 
@@ -42,9 +79,8 @@ async function loadListings(filters = {}) {
         listingsGrid.innerHTML = '<div class="col-span-3 text-center text-white">Loading...</div>';
 
         let listings = await getListings();
-        console.log("Fetched listings:", listings);
-
-        // Apply search filter if exists
+        
+        // Apply search filter
         if (filters.search) {
             const searchTerm = filters.search.toLowerCase();
             listings = listings.filter(listing =>
@@ -52,7 +88,6 @@ async function loadListings(filters = {}) {
                  listing.description?.toLowerCase().includes(searchTerm))
             );
         }
-        
 
         // Apply sort
         if (filters.sort === 'newest') {
@@ -71,45 +106,35 @@ async function loadListings(filters = {}) {
         const endIndex = startIndex + itemsPerPage;
         const paginatedListings = listings.slice(startIndex, endIndex);
 
-        const listingsHTML = paginatedListings.map(listing => createListingCard(listing)).join('');
-        listingsGrid.innerHTML = listingsHTML;
+        listingsGrid.innerHTML = paginatedListings.map(listing => createListingCard(listing)).join('');
 
-        // Generate pagination buttons
+        // Generate pagination
         const totalPages = Math.ceil(listings.length / itemsPerPage);
         generatePaginationButtons(totalPages);
     } catch (error) {
         console.error('Error loading listings:', error);
-        document.getElementById('listingsGrid').innerHTML = 
+        listingsGrid.innerHTML = 
             '<div class="col-span-3 text-center text-red-500">Failed to load listings. Error: ' + error.message + '</div>';
     }
 }
+
 function generatePaginationButtons(totalPages) {
-    // Get the existing pagination container (if any) and remove it
-    const existingPaginationContainer = document.getElementById('paginationContainer');
-    if (existingPaginationContainer) {
-        existingPaginationContainer.remove();
+    const existingPagination = document.getElementById('paginationContainer');
+    if (existingPagination) {
+        existingPagination.remove();
     }
 
-    // Create a new pagination container
     const paginationContainer = document.createElement('div');
-    paginationContainer.id = 'paginationContainer'; // Give it an ID for easy reference
+    paginationContainer.id = 'paginationContainer';
     paginationContainer.classList.add('flex', 'justify-center', 'mt-8', 'space-x-2');
 
-    // Generate pagination buttons
     for (let i = 1; i <= totalPages; i++) {
         const button = document.createElement('button');
         button.textContent = i;
         button.classList.add('px-4', 'py-2', 'bg-primary', 'text-dark', 'rounded-md', 'transition-colors', 'duration-200');
 
-        // If this is the current page, make it stand out
         if (i === currentPage) {
-            button.classList.add(
-                'bg-secondary',  // Stronger background color for current page
-                'text-white',     // White text for contrast
-                'border-2',       // Add a border around the active page
-                'border-dark',    // Border color
-                'shadow-lg'       // Add shadow for a 3D effect
-            );
+            button.classList.add('bg-secondary', 'text-white', 'border-2', 'border-dark', 'shadow-lg');
         }
 
         button.addEventListener('click', () => {
@@ -120,21 +145,67 @@ function generatePaginationButtons(totalPages) {
         paginationContainer.appendChild(button);
     }
 
-    // Append the new pagination container after the listings grid
-    const listingsGrid = document.getElementById('listingsGrid');
-    listingsGrid.insertAdjacentElement('afterend', paginationContainer);
+    document.getElementById('listingsGrid').insertAdjacentElement('afterend', paginationContainer);
 }
 
 // Event Handlers
-async function handleSearch(e) {
+function handleSearch(e) {
+    currentPage = 1; // Reset to first page on new search
     const searchTerm = e.target.value;
     loadListings({ search: searchTerm });
 }
 
 function handleSort(sortType) {
+    currentPage = 1; // Reset to first page on new sort
     loadListings({ sort: sortType });
 }
 
+// Initialize page
+document.addEventListener('DOMContentLoaded', () => {
+    checkAuth();
+    loadListings();
+    
+    // Mobile menu handlers
+    document.getElementById('mobileMenuBtn')?.addEventListener('click', () => {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuPanel = mobileMenu.querySelector('.transform');
+        mobileMenu.classList.remove('hidden');
+        setTimeout(() => {
+            menuPanel.classList.add('translate-x-0');
+        }, 10);
+    });
+
+    document.getElementById('closeMobileMenu')?.addEventListener('click', () => {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuPanel = mobileMenu.querySelector('.transform');
+        menuPanel.classList.remove('translate-x-0');
+        setTimeout(() => {
+            mobileMenu.classList.add('hidden');
+        }, 300);
+    });
+
+    // Add logout handler
+    document.getElementById('logoutBtn')?.addEventListener('click', logout);
+    
+    // Add search handler with debounce
+    const searchInput = document.querySelector('input[type="search"]');
+    let searchTimeout;
+    searchInput?.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => handleSearch(e), 300);
+    });
+
+    // Add filter handlers
+    const filterButtons = document.querySelectorAll('.flex button');
+    filterButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            const sortType = e.target.textContent.toLowerCase();
+            handleSort(sortType);
+        });
+    });
+});
+
+// Global bid handler
 window.placeBid = async (listingId) => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user) {
@@ -148,30 +219,8 @@ window.placeBid = async (listingId) => {
     try {
         await placeBid(listingId, Number(amount));
         alert('Bid placed successfully!');
-        loadListings(); // Reload listings to show new bid
+        loadListings();
     } catch (error) {
         alert(error.message || 'Failed to place bid');
     }
 };
-
-// Initialize page
-document.addEventListener('DOMContentLoaded', () => {
-    checkAuth();
-    loadListings();
-    
-    // Add logout handler
-    document.getElementById('logoutBtn')?.addEventListener('click', logout);
-
-    // Add search handler
-    const searchInput = document.querySelector('input[type="search"]');
-    searchInput?.addEventListener('input', handleSearch);
-
-    // Add filter handlers
-    const filterButtons = document.querySelectorAll('.flex button');
-    filterButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            const sortType = e.target.textContent.toLowerCase();
-            handleSort(sortType);
-        });
-    });
-});

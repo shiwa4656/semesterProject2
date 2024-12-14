@@ -3,6 +3,7 @@
 import { getListings, placeBid } from './api/listings.js';
 import { createListingCard } from './utils/listingRenderer.js';
 
+
 // Carousel state
 let currentSlide = 0;
 let totalSlides = 0;
@@ -11,19 +12,18 @@ function logout() {
     localStorage.clear();
     window.location.reload();
 }
-
 function checkAuth() {
     const user = JSON.parse(localStorage.getItem('user'));
     const guestNav = document.getElementById('guestNav');
     const userNav = document.getElementById('userNav');
-    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileMenuContent = document.getElementById('mobileMenuContent');
     
+    // Keep your existing desktop nav logic
     if (user) {
-        // Show user navigation
         guestNav?.classList.add('hidden');
         userNav?.classList.remove('hidden');
         
-        // Update user info
+        // Update user info (keep your existing code)
         document.getElementById('userCredits').textContent = user.credits || 1000;
         const userAvatar = document.getElementById('userAvatar');
         const profileLink = document.getElementById('profileLink');
@@ -34,15 +34,25 @@ function checkAuth() {
             profileLink.href = `/src/pages/profile.html?name=${user.name}`;
         }
 
-        // Update mobile menu
-        if (mobileMenu) {
-            mobileMenu.innerHTML = `
-                <a href="/src/pages/bids.html" class="block py-2 text-primary hover:text-secondary">Bids</a>
-                <a href="/src/pages/create.html" class="block py-2 text-primary hover:text-secondary">Create</a>
-                <button id="mobileLogoutBtn" class="block w-full text-left py-2 text-primary hover:text-secondary">Logout</button>
-                <div class="flex items-center gap-2 py-2">
-                    <img src="${user.avatar?.url || 'https://via.placeholder.com/40'}" alt="Profile" class="w-8 h-8 rounded-full">
-                    <span class="text-white">${user.name}</span>
+        // Update only mobile menu content
+        if (mobileMenuContent) {
+            mobileMenuContent.innerHTML = `
+                <div class="mb-6">
+                    <div class="flex items-center gap-3 mb-2">
+                        <img src="${user.avatar?.url || 'https://via.placeholder.com/40'}" 
+                             alt="Profile" 
+                             class="w-10 h-10 rounded-full">
+                        <span class="text-white">${user.name}</span>
+                    </div>
+                    <div class="text-gray-400">
+                        Credits: ${user.credits || 1000}
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <a href="/src/pages/bids.html" class="block text-orange-500">Bids</a>
+                    <a href="/src/pages/create.html" class="block text-orange-500">Create</a>
+                    <a href="/src/pages/profile.html?name=${user.name}" class="block text-orange-500">Profile</a>
+                    <button id="mobileLogoutBtn" class="block w-full text-left text-orange-500">Logout</button>
                 </div>
             `;
         }
@@ -50,12 +60,14 @@ function checkAuth() {
         guestNav?.classList.remove('hidden');
         userNav?.classList.add('hidden');
 
-        // Update mobile menu
-        if (mobileMenu) {
-            mobileMenu.innerHTML = `
-                <a href="/src/pages/bids.html" class="block py-2 text-primary hover:text-secondary">Bids</a>
-                <a href="/src/pages/login.html" class="block py-2 text-primary hover:text-secondary">Log in</a>
-                <a href="/src/pages/register.html" class="block py-2 text-orange-500 hover:text-secondary">get Started</a>
+        // Update only mobile menu content
+        if (mobileMenuContent) {
+            mobileMenuContent.innerHTML = `
+                <div class="space-y-4">
+                    <a href="/src/pages/bids.html" class="block text-orange-500">Bids</a>
+                    <a href="/src/pages/login.html" class="block text-orange-500">Log in</a>
+                    <a href="/src/pages/register.html" class="block text-orange-500">Get Started</a>
+                </div>
             `;
         }
     }
@@ -172,11 +184,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Mobile menu handlers
     document.getElementById('mobileMenuBtn')?.addEventListener('click', () => {
-        document.getElementById('mobileMenu').classList.remove('hidden');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuPanel = mobileMenu.querySelector('.transform');
+        mobileMenu.classList.remove('hidden');
+        setTimeout(() => {
+            menuPanel.classList.add('translate-x-0');
+        }, 10);
     });
 
     document.getElementById('closeMobileMenu')?.addEventListener('click', () => {
-        document.getElementById('mobileMenu').classList.add('hidden');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuPanel = mobileMenu.querySelector('.transform');
+        menuPanel.classList.remove('translate-x-0');
+        setTimeout(() => {
+            mobileMenu.classList.add('hidden');
+        }, 300);
     });
 
     // Carousel controls
@@ -201,3 +223,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+

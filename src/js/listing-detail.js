@@ -15,7 +15,6 @@ function getTimeLeft(endsAt) {
     const now = new Date();
     const endDate = new Date(endsAt);
     const diffTime = endDate - now;
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     
     if (diffTime < 0) return 'Auction ended';
     
@@ -35,6 +34,48 @@ function showError(message) {
     
     const errorMessage = document.querySelector('#errorState p');
     errorMessage.textContent = message;
+}
+
+async function updateCreditsInAPI(username, newAmount) {
+    try {
+        const response = await fetch(`https://v2.api.noroff.dev/auction/profiles/${username}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            },
+            body: JSON.stringify({
+                credits: newAmount
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update credits in API');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error updating credits:', error);
+        throw error;
+    }
+}
+
+async function getUserProfile(username) {
+    try {
+        const response = await fetch(`https://v2.api.noroff.dev/auction/profiles/${username}`, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+
+        if (!response.ok) throw new Error('Failed to fetch user profile');
+        
+        const data = await response.json();
+        return data.data;
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+        throw error;
+    }
 }
 
 function renderBidHistory(bids) {
@@ -105,14 +146,31 @@ async function loadListingDetail() {
             
             const bidAmount = Number(e.target.bidAmount.value);
             const currentBid = Math.max(0, ...listing.bids.map(b => b.amount));
+            const user = JSON.parse(localStorage.getItem('user'));
 
             if (bidAmount <= currentBid) {
                 alert('Bid must be higher than the current bid');
                 return;
             }
 
+            if (user.credits < bidAmount) {
+                alert('You do not have enough credits for this bid');
+                return;
+            }
+
             try {
+                // First place the bid
                 await placeBid(listingId, bidAmount);
+                
+                // Then update credits in API and locally
+                const newCredits = user.credits - bidAmount;
+                await updateCreditsInAPI(user.name, newCredits);
+                
+                // Update local storage and UI
+                user.credits = newCredits;
+                localStorage.setItem('user', JSON.stringify(user));
+                document.getElementById('userCredits').textContent = newCredits;
+                
                 window.location.reload();
             } catch (error) {
                 alert(error.message);
@@ -126,11 +184,27 @@ async function loadListingDetail() {
 }
 
 // Initialize page
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const user = JSON.parse(localStorage.getItem('user'));
     
     if (user) {
-        document.getElementById('userCredits').textContent = user.credits || 1000;
+        try {
+            // Fetch current user profile and credits from API
+            const profile = await getUserProfile(user.name);
+            
+            // Initialize credits if needed
+            if (profile.credits === undefined || profile.credits === null) {
+                await updateCreditsInAPI(user.name, 1000);
+                profile.credits = 1000;
+            }
+            
+            // Update local storage and UI
+            user.credits = profile.credits;
+            localStorage.setItem('user', JSON.stringify(user));
+            document.getElementById('userCredits').textContent = profile.credits;
+        } catch (error) {
+            console.error('Error initializing user profile:', error);
+        }
     } else {
         window.location.href = '/src/pages/login.html';
         return;
