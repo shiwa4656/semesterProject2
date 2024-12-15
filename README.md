@@ -16,6 +16,7 @@ git clone https://github.com/shiwa4656/semesterProject2.git
 
 
 ```
+````
 #### Install Dependencies
 
 Navigate to the project folder and run:
@@ -28,6 +29,7 @@ Start the app by executing:
 
 
 npm start
+````
 
 
 ## 🎨 Design Resources
@@ -38,3 +40,7 @@ The design for this project was created in Figma. You can check it out here:
 ## 📋 Project Management
 The project is organized using a GitHub Kanban board. You can view the progress and tasks here:
 📊 [GitHub Kanban Board](https://github.com/users/shiwa4656/projects/15/views/4)
+
+
+##  SIgn up or check up the live site
+

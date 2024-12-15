@@ -46,7 +46,7 @@ function checkAuth() {
                     </div>
                 </div>
                 <div class="space-y-4">
-                    <a href="/src/pages/bids.html" class="block text-orange-500">Bids</a>
+                    <a href="../../index.html" class="block text-orange-500">Home</a>
                     <a href="/src/pages/create.html" class="block text-orange-500">Create</a>
                     <a href="/src/pages/profile.html?name=${user.name}" class="block text-orange-500">Profile</a>
                     <button id="mobileLogoutBtn" class="block w-full text-left text-orange-500">Logout</button>

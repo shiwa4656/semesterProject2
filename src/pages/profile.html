@@ -25,9 +25,9 @@
                 </span>
             </div>
             <a href="./create.html" class="text-orange-500 text-sm font-medium hover:text-orange-400 transition duration-200">Create</a>
-            <button id="logoutBtn" class="bg-orange-500 text-white text-sm font-medium px-4 py-2 rounded-full hover:bg-orange-600 transition duration-200">
+            <button id="logoutBtn" class="bg-orange-500 text-black text-sm font-medium px-4 py-2 rounded-full hover:bg-orange-600 transition duration-200" style="opacity: 1; color: rgb(0, 0, 0); background-color: rgb(249, 115, 22);">
                 Logout
-            </button>
+              </button>  
             <a href="./src/pages/profile.html" id="profileLink" class="flex items-center hover:opacity-80">
                 <img id="userAvatar" 
                      src="https://via.placeholder.com/36" 
@@ -37,7 +37,7 @@
         </div>
 
         <!-- Mobile Menu Button -->
-        <button id="mobileMenuBtn" class="lg:hidden text-primary hover:text-secondary transition-colors">
+        <button id="mobileMenuBtn" class="lg:hidden text-primary hover:text-secondary transition-colors" aria-label="mobile menu button">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
@@ -48,7 +48,7 @@
     <div id="mobileMenu" class="lg:hidden fixed inset-0 z-50 hidden bg-dark bg-opacity-50">
         <div class="absolute right-0 top-0 h-full w-64 bg-dark transform transition-transform duration-300 translate-x-full">
             <div class="p-4 flex justify-end">
-                <button id="closeMobileMenu" class="text-orange-500">
+                <button id="closeMobileMenu" class="text-orange-500" aria-label="Closing mobile menu">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>

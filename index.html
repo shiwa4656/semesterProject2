@@ -27,9 +27,10 @@
                 <div class="flex items-center gap-6">
                     <a href="./src/pages/bids.html" class="text-orange-500 text-sm font-medium hover:text-orange-400 transition duration-200">Bids</a>
                     <a href="./src/pages/create.html" class="text-orange-500 text-sm font-medium hover:text-orange-400 transition duration-200">Create</a>
-                    <button id="logoutBtn" class="bg-orange-500 text-white text-sm font-medium px-4 py-2 rounded-full hover:bg-orange-600 transition duration-200">
+                    <button id="logoutBtn" class="bg-orange-500 text-black text-sm font-medium px-4 py-2 rounded-full hover:bg-orange-600 transition duration-200" style="opacity: 1; color: rgb(0, 0, 0); background-color: rgb(249, 115, 22);">
                         Logout
-                    </button>
+                      </button>
+                      
                     <a href="./src/pages/profile.html" id="profileLink" class="flex items-center hover:opacity-80">
                         <img id="userAvatar" 
                              src="https://via.placeholder.com/36" 
@@ -41,7 +42,7 @@
         </div>
     
         <!-- Mobile Only Menu Button -->
-        <button id="mobileMenuBtn" class="block lg:hidden text-primary hover:text-secondary transition-colors">
+        <button id="mobileMenuBtn" class="block lg:hidden text-primary hover:text-secondary transition-colors" aria-label="mobile menu button">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
@@ -52,7 +53,7 @@
     <div id="mobileMenu" class="lg:hidden fixed inset-0 z-50 hidden bg-dark bg-opacity-50">
         <div class="absolute right-0 top-0 h-full w-64 bg-dark transform transition-transform duration-300">
             <div class="p-4 flex justify-end">
-                <button id="closeMobileMenu" class="text-orange-500">
+                <button id="closeMobileMenu" class="text-orange-500" aria-label="Closing mobile menu">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
@@ -75,12 +76,12 @@
                         <!-- Carousel items will be inserted here -->
                     </div>
                 </div>
-                <button id="prevBtn" class="absolute left-0 top-1/2 -translate-y-1/2 bg-primary/80 hover:bg-primary text-dark p-2 rounded-r-lg">
+                <button id="prevBtn" class="absolute left-0 top-1/2 -translate-y-1/2 bg-primary/80 hover:bg-primary text-dark p-2 rounded-r-lg" aria-label="previous">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                     </svg>
                 </button>
-                <button id="nextBtn" class="absolute right-0 top-1/2 -translate-y-1/2 bg-primary/80 hover:bg-primary text-dark p-2 rounded-l-lg">
+                <button id="nextBtn" class="absolute right-0 top-1/2 -translate-y-1/2 bg-primary/80 hover:bg-primary text-dark p-2 rounded-l-lg" aria-label="Next">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
@@ -101,6 +102,7 @@
                     type="search" 
                     placeholder="Search by title, user..." 
                     class="w-full bg-cardBg rounded-full py-2 px-6 text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+                    aria-label="search bar"
                 >
             </div>
         </div>
@@ -117,7 +119,7 @@
 
         <!-- View More Button -->
         <div class="text-center mt-8">
-            <a href="/src/pages/bids.html" class="inline-block bg-primary text-dark px-8 py-3 rounded-full hover:bg-secondary transition-colors">
+            <a href="/src/pages/bids.html" class="inline-block bg-primary text-dark px-8 py-3 rounded-full hover:bg-secondary transition-colors" aria-label="link to the bids">
                 View More Listings
             </a>
         </div>
