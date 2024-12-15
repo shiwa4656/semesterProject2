@@ -44,3 +44,5 @@ The project is organized using a GitHub Kanban board. You can view the progress 
 
 ##  SIgn up or check up the live site
 
+Enjoy the live site on netify  : https://auction-site16.netlify.app/
+
