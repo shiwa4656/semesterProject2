@@ -50,6 +50,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update credits display
     document.getElementById('userCredits').textContent = user.credits || 1000;
+    document.querySelectorAll('.mobile-credits').forEach(el => {
+        el.textContent = user.credits || 1000;
+    });
+
+    // Update avatar and username displays
+    const avatarSrc = user.avatar?.url || 'https://via.placeholder.com/36';
+    document.getElementById('userAvatar').src = avatarSrc;
+    document.getElementById('mobileUserAvatar').src = avatarSrc;
+    document.getElementById('mobileUsername').textContent = user.name;
+    document.getElementById('profileLink').href = `/src/pages/profile.html?name=${user.name}`;
 
     // Set minimum date for endsAt
     const dateInput = document.querySelector('input[type="datetime-local"]');
@@ -59,11 +69,33 @@ document.addEventListener('DOMContentLoaded', () => {
     dateInput.min = localISOTime;
     dateInput.value = localISOTime;
 
-    // Add logout handler
-    document.getElementById('logoutBtn').addEventListener('click', () => {
+    // Mobile menu handlers
+    document.getElementById('mobileMenuBtn')?.addEventListener('click', () => {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuPanel = mobileMenu.querySelector('.transform');
+        mobileMenu.classList.remove('hidden');
+        setTimeout(() => {
+            menuPanel.classList.remove('translate-x-full');
+        }, 10);
+    });
+
+    document.getElementById('closeMobileMenu')?.addEventListener('click', () => {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuPanel = mobileMenu.querySelector('.transform');
+        menuPanel.classList.add('translate-x-full');
+        setTimeout(() => {
+            mobileMenu.classList.add('hidden');
+        }, 300);
+    });
+
+    // Logout handlers
+    const logoutHandler = () => {
         localStorage.clear();
         window.location.href = '/index.html';
-    });
+    };
+
+    document.getElementById('logoutBtn')?.addEventListener('click', logoutHandler);
+    document.getElementById('mobileLogoutBtn')?.addEventListener('click', logoutHandler);
 });
 
 // Handle form submission

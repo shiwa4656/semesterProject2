@@ -7,18 +7,80 @@
     <link href="/dist/style.css" rel="stylesheet">
 </head>
 <body class="bg-dark min-h-screen">
-    <!-- Navigation -->
-    <nav class="px-8 py-4 flex justify-between items-center">
-        <h1 class="text-primary text-2xl font-bold">Logo</h1>
-        <div class="flex items-center gap-4">
-            <a href="/index.html" class="text-primary hover:text-secondary">Bids</a>
-            <div id="creditsContainer" class="bg-black/30 px-4 py-2 rounded-lg">
-                <span class="text-white">Credits = <span id="userCredits">1000</span></span>
-            </div>
-            <a href="/src/pages/create.html" class="bg-primary text-dark px-4 py-2 rounded-full hover:bg-secondary">Create</a>
-            <button id="logoutBtn" class="text-orange-500 hover:text-secondary">Log out</button>
+  <!-- Navigation -->
+<nav class="px-8 py-4 flex justify-between items-center">
+    <h1 class="text-primary text-2xl font-bold">Logo</h1>
+    
+    <!-- Desktop Only Navigation - Hidden on mobile -->
+    <div class="hidden lg:flex items-center gap-6">
+        <!-- User Navigation -->
+        <a href="./bids.html" class="text-orange-500 text-sm font-medium hover:text-orange-400 transition duration-200">Bids</a>
+        <div id="creditsContainer" class="bg-black/30 px-4 py-2 rounded-lg">
+            <span class="text-white flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-orange-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"/>
+                </svg>
+                <span id="userCredits" class="font-medium">1000</span>
+                credits
+            </span>
         </div>
-    </nav>
+        <a href="./create.html" class="text-orange-500 text-sm font-medium hover:text-orange-400 transition duration-200">Create</a>
+        <button id="logoutBtn" class="bg-orange-500 text-white text-sm font-medium px-4 py-2 rounded-full hover:bg-orange-600 transition duration-200">
+            Logout
+        </button>
+        <a href="./src/pages/profile.html" id="profileLink" class="flex items-center hover:opacity-80">
+            <img id="userAvatar" 
+                 src="https://via.placeholder.com/36" 
+                 alt="Profile" 
+                 class="w-10 h-10 rounded-full border-2 border-orange-500 hover:scale-110 transition duration-300">
+        </a>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button id="mobileMenuBtn" class="lg:hidden text-primary hover:text-secondary transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+    </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobileMenu" class="lg:hidden fixed inset-0 z-50 hidden bg-dark bg-opacity-50">
+    <div class="absolute right-0 top-0 h-full w-64 bg-dark transform transition-transform duration-300 translate-x-full">
+        <div class="p-4 flex justify-end">
+            <button id="closeMobileMenu" class="text-orange-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <div id="mobileMenuContent" class="px-4">
+            <div class="mb-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <img id="mobileUserAvatar" src="https://via.placeholder.com/40" alt="Profile" class="w-10 h-10 rounded-full border-2 border-orange-500">
+                    <span class="text-white" id="mobileUsername"></span>
+                </div>
+                <div class="bg-black/30 p-4 rounded-lg mb-4">
+                    <span class="text-white flex items-center gap-2 justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-orange-500" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"/>
+                        </svg>
+                        <span class="mobile-credits font-medium"></span>
+                        credits
+                    </span>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <a href="./bids.html" class="block text-orange-500">Bids</a>
+                <a href="./create.html" class="block text-orange-500">Create</a>
+                <a href="./profile.html" class="block text-orange-500">Profile</a>
+                <button id="mobileLogoutBtn" class="block w-full text-left text-orange-500">Logout</button>
+            </div>
+        </div>
+    </div>
+</div>
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 py-8">

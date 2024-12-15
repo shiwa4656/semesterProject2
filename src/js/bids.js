@@ -134,7 +134,7 @@ function generatePaginationButtons(totalPages) {
         button.classList.add('px-4', 'py-2', 'bg-primary', 'text-dark', 'rounded-md', 'transition-colors', 'duration-200');
 
         if (i === currentPage) {
-            button.classList.add('bg-secondary', 'text-white', 'border-2', 'border-dark', 'shadow-lg');
+            button.classList.add('bg-secondary', 'text-black', 'border-2', 'border-dark', 'shadow-lg');
         }
 
         button.addEventListener('click', () => {

@@ -16,7 +16,7 @@
             <!-- Guest Navigation -->
             <div id="guestNav">
                 <div class="flex gap-4">
-                    <a href="/src/pages/bids.html" class="text-primary hover:text-secondary">Bids</a>
+                    <a href="../../index.html" class="text-primary hover:text-secondary">Home</a>
                     <a href="/src/pages/login.html" class="text-primary hover:text-secondary">Log in</a>
                     <a href="/src/pages/register.html" class="text-orange-500 hover:text-secondary">Get Started</a>
                 </div>
@@ -25,8 +25,8 @@
             <!-- User Navigation -->
             <div id="userNav" class="hidden">
                 <div class="flex items-center gap-6">
-                    <a href="./src/pages/bids.html" class="text-orange-500 text-sm font-medium hover:text-orange-400 transition duration-200">Bids</a>
-                    <a href="./src/pages/create.html" class="text-orange-500 text-sm font-medium hover:text-orange-400 transition duration-200">Create</a>
+                    <a href="../../index.html" class="text-orange-500 text-sm font-medium hover:text-orange-400 transition duration-200">Home</a>
+                    <a href="./create.html" class="text-orange-500 text-sm font-medium hover:text-orange-400 transition duration-200">Create</a>
                     <button id="logoutBtn" class="bg-orange-500 text-white text-sm font-medium px-4 py-2 rounded-full hover:bg-orange-600 transition duration-200">
                         Logout
                     </button>
@@ -41,7 +41,7 @@
         </div>
     
         <!-- Mobile Only Menu Button -->
-        <button id="mobileMenuBtn" class="block lg:hidden text-primary hover:text-secondary transition-colors">
+        <button id="mobileMenuBtn" class="block lg:hidden text-primary hover:text-secondary transition-colors" aria-label="hamburg button">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
@@ -78,7 +78,7 @@
                     type="search" 
                     placeholder="Search by title, user..." 
                     class="w-full bg-cardBg rounded-full py-2 px-6 text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
-                >
+                aria-label="search input button">
             </div>
 
             <!-- Empty div for flex spacing -->
@@ -96,7 +96,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="listingsGrid"></div>
     </div>
     <!-- Pagination Buttons -->
-   <div id="paginationContainer" class="flex justify-center mt-8 space-x-2"></div> 
+   <div id="paginationContainer" class="flex  justify-center mt-8 space-x-2"></div> 
    <footer class="bg-cardBg mt-20">
     <div class="max-w-7xl mx-auto px-4 py-12">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">

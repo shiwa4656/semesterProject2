@@ -224,5 +224,80 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.location.href = '/index.html';
     });
 
+   
+});
+
+
+// Initialize page
+document.addEventListener('DOMContentLoaded', async () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const token = localStorage.getItem('token');
+    
+    // Redirect if not authenticated
+    if (!user || !token) {
+        window.location.href = '/src/pages/login.html';
+        return;
+    }
+
+    try {
+        // Fetch current user profile and credits from API
+        const profile = await getUserProfile(user.name);
+        
+        // Initialize credits if needed
+        if (profile.credits === undefined || profile.credits === null) {
+            await updateCreditsInAPI(user.name, 1000);
+            profile.credits = 1000;
+        }
+        
+        // Update local storage and UI
+        user.credits = profile.credits;
+        localStorage.setItem('user', JSON.stringify(user));
+        
+        // Update all credit displays
+        document.getElementById('userCredits').textContent = profile.credits;
+        document.querySelectorAll('.mobile-credits').forEach(el => {
+            el.textContent = profile.credits;
+        });
+
+        // Update avatar and username
+        const avatarSrc = user.avatar?.url || 'https://via.placeholder.com/36';
+        document.getElementById('userAvatar').src = avatarSrc;
+        document.getElementById('mobileUserAvatar').src = avatarSrc;
+        document.getElementById('mobileUsername').textContent = user.name;
+        document.getElementById('profileLink').href = `/src/pages/profile.html?name=${user.name}`;
+        
+    } catch (error) {
+        console.error('Error initializing user profile:', error);
+    }
+
+    // Mobile menu handlers
+    document.getElementById('mobileMenuBtn')?.addEventListener('click', () => {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuPanel = mobileMenu.querySelector('.transform');
+        mobileMenu.classList.remove('hidden');
+        setTimeout(() => {
+            menuPanel.classList.remove('translate-x-full');
+        }, 10);
+    });
+
+    document.getElementById('closeMobileMenu')?.addEventListener('click', () => {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuPanel = mobileMenu.querySelector('.transform');
+        menuPanel.classList.add('translate-x-full');
+        setTimeout(() => {
+            mobileMenu.classList.add('hidden');
+        }, 300);
+    });
+
+    // Logout handlers
+    const logoutHandler = () => {
+        localStorage.clear();
+        window.location.href = '/index.html';
+    };
+
+    document.getElementById('logoutBtn')?.addEventListener('click', logoutHandler);
+    document.getElementById('mobileLogoutBtn')?.addEventListener('click', logoutHandler);
+
+    // Load listing details
     loadListingDetail();
 });
