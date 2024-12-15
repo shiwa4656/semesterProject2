@@ -14,10 +14,10 @@ To set up the project, follow these steps:
 ```bash
 git clone https://github.com/shiwa4656/semesterProject2.git
 
-'''
 
+```
 #### Install Dependencies
-````
+
 Navigate to the project folder and run:
 npm install
 
@@ -28,7 +28,7 @@ Start the app by executing:
 
 
 npm start
-```
+
 
 ## 🎨 Design Resources
 The design for this project was created in Figma. You can check it out here:
