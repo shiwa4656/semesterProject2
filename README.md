@@ -1,10 +1,10 @@
 # Semester Project 2 🚀
 
-Welcome to my Semester Project 2 repository! This project is a demonstration of [specific purpose of the project]. Below, you'll find all the details needed to get started.
+Welcome to my Semester Project 2 repository! This project is a demonstration of TailwindCss and javaScript. Below, you'll find all the details needed to get started.
 
 ## 🌟 Project Overview
 
-This project focuses on building a dynamic and interactive application for [brief description of what the app does or the project's context]. It includes features such as [list features or unique elements].
+This project focuses on building a dynamic and interactive application for an auction site. It includes features such as Authentication, creating biding and adding a bide to other bids.
 
 ## 🔧 Getting Started
 
@@ -14,14 +14,21 @@ To set up the project, follow these steps:
 ```bash
 git clone https://github.com/shiwa4656/semesterProject2.git
 
+'''
+
 #### Install Dependencies
+````
 Navigate to the project folder and run:
 npm install
+
+
 
 #### Run the Application
 Start the app by executing:
 
+
 npm start
+```
 
 ## 🎨 Design Resources
 The design for this project was created in Figma. You can check it out here:
